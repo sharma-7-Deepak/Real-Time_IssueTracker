@@ -1,0 +1,24 @@
+{
+  "issues": [
+    {
+      "id": 1,
+      "title": "G17-session-2:00pm",
+      "description": "This class is shit.. excpet one Deepak Sharma",
+      "status": "Open",
+      "createdBy": "Deepak Sharma",
+      "comments": [
+        {
+          "text": "Nill",
+          "by": "Nill",
+          "at": "2025-10-08T09:26:46.800Z"
+        },
+        {
+          "text": "No comments",
+          "by": "Deepak",
+          "at": "2025-10-08T09:41:27.098Z"
+        }
+      ],
+      "createdAt": "2025-10-08T09:26:24.957Z"
+    }
+  ]
+}

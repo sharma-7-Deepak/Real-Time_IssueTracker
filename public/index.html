@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Issue Tracker</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      max-width: 1000px; 
+      margin: 20px auto; 
+      padding: 10px;
+    }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin-top: 10px;
+    }
+    th, td { 
+      border: 1px solid #ddd; 
+      padding: 8px; 
+      text-align: left;
+    }
+    th { 
+      background: #f4f4f4; 
+    }
+    .form-row { 
+      margin-top: 10px; 
+      display: flex; 
+      gap: 8px; 
+      align-items: center;
+    }
+    input, textarea, select { 
+      padding: 6px; 
+    }
+    button { 
+      padding: 8px 12px; 
+      cursor: pointer; 
+    }
+    .comment { 
+      font-size: 0.9em; 
+      color: #333; 
+      margin-top: 6px; 
+      padding: 6px; 
+      background: #f9f9f9; 
+      border-radius: 4px;
+    }
+    .small { 
+      font-size: 0.9em; 
+      color: #666; 
+    }
+  </style>
+</head>
+<body>
+  <h1>Issue Tracker</h1>
+  <p class="small">Create issues, update their status, and add comments. All changes are saved automatically.</p>
+
+  <h3>Create New Issue</h3>
+  <div class="form-row">
+    <input id="title" placeholder="Enter issue title" style="flex: 1;" />
+    <input id="createdBy" placeholder="Your name" style="width: 160px;" />
+    <button id="btnCreate">Create Issue</button>
+  </div>
+  <div class="form-row">
+    <textarea id="description" rows="2" placeholder="Enter description (optional)" style="width: 100%;"></textarea>
+  </div>
+
+  <h3>All Issues</h3>
+  <table id="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title & Description</th>
+        <th>Status</th>
+        <th>Created By</th>
+        <th>Comments</th>
+        <th>Change Status</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="/app.js"></script>
+</body>
+</html>

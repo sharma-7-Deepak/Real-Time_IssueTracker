@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { exec } = require('child_process');
 const WebSocket = require('ws');
 
 const app = express();
@@ -22,10 +23,29 @@ function loadIssues() {
   return JSON.parse(fileContent);
 }
 
-// Save issues to file
-function saveIssues(data) {
+// Save issues to file and push to GitHub
+function saveIssues(data, commitMessage) {
   fs.writeFileSync(ISSUES_FILE, JSON.stringify(data, null, 2));
   console.log('Issues saved to file');
+  
+  // Auto-commit and push to GitHub
+  const gitCommands = [
+    'git add issues.json',
+    `git commit -m "${commitMessage || 'Updated issues data'}"`,
+    'git push origin main'
+  ].join(' && ');
+  
+  exec(gitCommands, (error, stdout, stderr) => {
+    if (error) {
+      console.log('Git operation completed with info:', error.message);
+    }
+    if (stdout) {
+      console.log('Git output:', stdout);
+    }
+    if (stderr) {
+      console.log('Git info:', stderr);
+    }
+  });
 }
 
 // API to get all issues
@@ -96,7 +116,7 @@ function handleClientMessage(message) {
     };
     
     issues.push(newIssue);
-    saveIssues(data);
+    saveIssues(data, `Created new issue: ${newIssue.title} by ${newIssue.createdBy}`);
     sendToAllClients({ type: 'created', payload: newIssue });
     
   } else if (message.type === 'update') {
@@ -107,7 +127,7 @@ function handleClientMessage(message) {
       if (message.payload.description) issue.description = message.payload.description;
       if (message.payload.status) issue.status = message.payload.status;
       
-      saveIssues(data);
+      saveIssues(data, `Updated issue #${issue.id}: ${issue.title}`);
       sendToAllClients({ type: 'updated', payload: issue });
     }
     
@@ -122,7 +142,7 @@ function handleClientMessage(message) {
       };
       
       issue.comments.push(newComment);
-      saveIssues(data);
+      saveIssues(data, `Added comment to issue #${issue.id} by ${newComment.by}`);
       sendToAllClients({ 
         type: 'commented', 
         payload: { issueId: issue.id, comment: newComment } 
